@@ -1,4 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { editLocalStorage } from "../helpers/localStorage.ts";
+window.onload = () => {
+  editLocalStorage("clear", "", "");
+  console.log("cleared all gamedata from local storage");
+};
+
+defineEmits<{
+  (e: "startGame", disabled: boolean): void;
+}>();
+</script>
 
 <template>
   <section>
@@ -23,7 +33,7 @@
       </div>
     </div>
 
-    <button>Play</button>
+    <button @click="$emit('startGame', false)">Play</button>
   </section>
 </template>
 
