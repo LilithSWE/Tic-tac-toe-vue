@@ -4,7 +4,12 @@ import { ref } from "vue";
 let playerName = ref("");
 let currentPlayerChoosing = ref("Player X");
 
-const readyToStart = () => {
+const emit = defineEmits<{
+  (e: "startGame", disabled: boolean): void;
+  (e: "startPlaying", newGame: boolean): void;
+}>();
+
+const saveUser = () => {
   if (playerName.value == "") {
     console.log("no input");
     return;
@@ -15,12 +20,12 @@ const readyToStart = () => {
     console.log("playerOName set to: " + playerName.value);
     currentPlayerChoosing = "Player X";
     playerName.value = "";
+    emit("startPlaying", true);
   } else {
     localStorage.setItem("playerXName", playerName.value);
     console.log("playerXName set to: " + playerName.value);
     playerName.value = "";
     currentPlayerChoosing = "Player O";
-    return;
   }
 };
 </script>
@@ -28,10 +33,13 @@ const readyToStart = () => {
 <template>
   <section>
     <h2>{{ currentPlayerChoosing }}</h2>
-    <form @submit.prevent="readyToStart">
+    <form @submit.prevent="saveUser">
       <input type="text" placeholder="Your name..." v-model="playerName" />
-      <button>Save</button>
+      <button>Save name</button>
     </form>
+    <button class="return" @click="$emit('startGame', true)">
+      Return to start
+    </button>
   </section>
 </template>
 
@@ -56,5 +64,13 @@ input {
   height: 2rem;
   width: 20rem;
   font-size: 1.5rem;
+  padding: 10px;
+}
+.return {
+  width: 13rem;
+}
+.return:hover {
+  border-color: #741042;
+  color: rgb(241, 191, 187);
 }
 </style>

@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import { editLocalStorage } from "../helpers/localStorage.ts";
-window.onload = () => {
-  editLocalStorage("clear", "", "");
-  console.log("cleared all gamedata from local storage");
-};
-
 defineEmits<{
   (e: "startGame", disabled: boolean): void;
 }>();
