@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { editLocalStorage } from "./helpers/localStorage.ts";
 import Welcome from "./components/Welcome.vue";
 import Players from "./components/Players.vue";
 import Game from "./components/Game.vue";
@@ -17,7 +16,7 @@ const startNewSession = (disabled: boolean) => {
   localStorage.setItem("playerOName", "");
 
   if (disabled) {
-    editLocalStorage("clear", "", "");
+    localStorage.clear();
     console.log("cleared all gamedata from local storage");
   }
 };

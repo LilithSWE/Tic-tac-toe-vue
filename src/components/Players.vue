@@ -2,7 +2,8 @@
 import { ref } from "vue";
 
 let playerName = ref("");
-let currentPlayerChoosing = ref("Player X");
+let currentPlayerChoosing = ref("");
+currentPlayerChoosing.value = "Player X";
 
 const emit = defineEmits<{
   (e: "startGame", disabled: boolean): void;
@@ -18,14 +19,14 @@ const saveUser = () => {
   if (localStorage.getItem("playerXName") != "") {
     localStorage.setItem("playerOName", playerName.value);
     console.log("playerOName set to: " + playerName.value);
-    currentPlayerChoosing = "Player X";
+    currentPlayerChoosing.value = "Player X";
     playerName.value = "";
     emit("startPlaying", true);
   } else {
     localStorage.setItem("playerXName", playerName.value);
     console.log("playerXName set to: " + playerName.value);
     playerName.value = "";
-    currentPlayerChoosing = "Player O";
+    currentPlayerChoosing.value = "Player O";
   }
 };
 </script>
