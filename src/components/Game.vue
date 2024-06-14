@@ -156,6 +156,7 @@ const checkTie = () => {
 };
 
 const toggleScoreDialog = () => {
+  getScore();
   showScoreDialog.value = !showScoreDialog.value;
 };
 
