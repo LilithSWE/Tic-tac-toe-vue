@@ -3,8 +3,8 @@ const resetStorage = () => {
   if (localStorage.getItem("showWelcomePage") == "true") {
     localStorage.setItem("playerXName", "");
     localStorage.setItem("playerOName", "");
-    localStorage.setItem("XScore", "0");
-    localStorage.setItem("OScore", "0");
+    localStorage.setItem("scoreX", "0");
+    localStorage.setItem("scoreO", "0");
     localStorage.setItem("currentPlayerName", "");
     localStorage.setItem("grid_row1", JSON.stringify(["", "", ""]));
     localStorage.setItem("grid_row2", JSON.stringify(["", "", ""]));

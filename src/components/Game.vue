@@ -40,13 +40,16 @@ const changeGrid = (row: number, col: number) => {
   if (!grid[row][col] && !winner.value) {
     grid[row][col] = player.value;
     if (checkWin()) {
-      toggleResultDialog("winner");
+      getScore();
       winner.value = currentPlayerName.value;
       addPoints();
+      toggleResultDialog("winner");
     } else if (checkTie()) {
-      toggleResultDialog("tie");
+      getScore();
       tie.value = true;
+      toggleResultDialog("tie");
     } else {
+      getScore();
       player.value = player.value === "X" ? "O" : "X";
       setCurrentPlayerName();
     }
@@ -58,7 +61,6 @@ const saveGridLocally = () => {
   localStorage.setItem("grid_row1", JSON.stringify(grid[0]));
   localStorage.setItem("grid_row2", JSON.stringify(grid[1]));
   localStorage.setItem("grid_row3", JSON.stringify(grid[2]));
-  console.log(grid[0]);
 };
 
 const getGrid = () => {
@@ -89,10 +91,19 @@ const getPlayerNames = () => {
   playerO.value = localStorage.getItem("playerOName");
 };
 
+const getScore = () => {
+  if (localStorage.getItem("scoreX") != null) {
+    scoreX.value = Number(localStorage.getItem("scoreX"));
+  }
+  if (localStorage.getItem("scoreO") != null) {
+    scoreO.value = Number(localStorage.getItem("scoreO"));
+  }
+};
+
 const setCurrentPlayerName = () => {
   if (player.value == "X" && playerX.value) {
     currentPlayerName.value = playerX.value;
-  } else if (playerO.value) {
+  } else if (player.value == "O" && playerO.value) {
     currentPlayerName.value = playerO.value;
   }
   localStorage.setItem("currentPlayerName", currentPlayerName.value);
@@ -104,13 +115,18 @@ setCurrentPlayerName();
 window.onload = () => {
   getGrid();
   getPlayerNames();
+  getScore();
 };
 
 const addPoints = () => {
   if (player.value == "X") {
-    scoreX.value++;
+    scoreX.value = Number(localStorage.getItem("scoreX")) + 1;
+    console.log(scoreX.value);
+    localStorage.setItem("scoreX", JSON.stringify(scoreX.value));
   } else {
-    scoreO.value++;
+    scoreO.value = Number(localStorage.getItem("scoreO")) + 1;
+    console.log(scoreO.value);
+    localStorage.setItem("scoreO", JSON.stringify(scoreO.value));
   }
 };
 
