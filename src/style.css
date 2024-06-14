@@ -54,12 +54,22 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+.return {
+  width: 13rem;
+}
+.return:hover {
+  border-color: #741042;
+  color: rgb(241, 191, 187);
+}
 
 #app {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
   align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 @media (prefers-color-scheme: light) {

@@ -6,8 +6,8 @@ let currentPlayerChoosing = ref("");
 currentPlayerChoosing.value = "Player X";
 
 const emit = defineEmits<{
-  (e: "startGame", disabled: boolean): void;
-  (e: "startPlaying", newGame: boolean): void;
+  (e: "startNewSession", display: boolean): void;
+  (e: "startPlaying", display: boolean): void;
 }>();
 
 const saveUser = () => {
@@ -19,7 +19,6 @@ const saveUser = () => {
   if (localStorage.getItem("playerXName") != "") {
     localStorage.setItem("playerOName", playerName.value);
     console.log("playerOName set to: " + playerName.value);
-    currentPlayerChoosing.value = "Player X";
     playerName.value = "";
     emit("startPlaying", true);
   } else {
@@ -29,16 +28,25 @@ const saveUser = () => {
     currentPlayerChoosing.value = "Player O";
   }
 };
+
+const isThereASavedName = () => {
+  if (localStorage.getItem("playerXName") == "") {
+    return false;
+  } else {
+    return true;
+  }
+};
 </script>
 
 <template>
   <section>
-    <h2>{{ currentPlayerChoosing }}</h2>
+    <h2 v-if="isThereASavedName() == false">Player X</h2>
+    <h2 v-if="isThereASavedName()">Player O</h2>
     <form @submit.prevent="saveUser">
       <input type="text" placeholder="Your name..." v-model="playerName" />
       <button>Save name</button>
     </form>
-    <button class="return" @click="$emit('startGame', true)">
+    <button class="return" @click="$emit('startNewSession', true)">
       Return to start
     </button>
   </section>
@@ -66,12 +74,5 @@ input {
   width: 20rem;
   font-size: 1.5rem;
   padding: 10px;
-}
-.return {
-  width: 13rem;
-}
-.return:hover {
-  border-color: #741042;
-  color: rgb(241, 191, 187);
 }
 </style>

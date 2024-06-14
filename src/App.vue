@@ -8,33 +8,78 @@ const showWelcomePage = ref(true);
 const showPlayerPage = ref(false);
 const showGamePage = ref(false);
 
-const startNewSession = (disabled: boolean) => {
-  showWelcomePage.value = disabled;
-  showPlayerPage.value = !disabled;
-
-  localStorage.setItem("playerXName", "");
-  localStorage.setItem("playerOName", "");
-
-  if (disabled) {
-    localStorage.clear();
-    console.log("cleared all gamedata from local storage");
-  }
+const saveToLocalStorage = () => {
+  localStorage.setItem(
+    "showWelcomePage",
+    JSON.stringify(showWelcomePage.value)
+  );
+  localStorage.setItem("showPlayerPage", JSON.stringify(showPlayerPage.value));
+  localStorage.setItem("showGamePage", JSON.stringify(showGamePage.value));
 };
 
-const startUpGame = (newGame: boolean) => {
-  showPlayerPage.value = !newGame;
-  showGamePage.value = newGame;
+const setInitialStorage = () => {
+  if (localStorage.getItem("showWelcomePage") == null) {
+    saveToLocalStorage();
+  }
+};
+setInitialStorage();
+
+// Makes sure the correct page shows even if the browser reloads
+window.onload = () => {
+  const valueWelcome = localStorage.getItem("showWelcomePage");
+  if (valueWelcome == "true") {
+    showWelcomePage.value = true;
+  } else {
+    showWelcomePage.value = false;
+  }
+
+  const valuePlay = localStorage.getItem("showPlayerPage");
+  if (valuePlay == "true") {
+    showPlayerPage.value = true;
+  } else {
+    showPlayerPage.value = false;
+  }
+
+  const valueGame = localStorage.getItem("showGamePage");
+  if (valueGame == "true") {
+    showGamePage.value = true;
+  } else {
+    showGamePage.value = false;
+  }
+
+  console.log("page is fully loaded");
+};
+
+const startNewSession = (display: boolean) => {
+  showWelcomePage.value = display;
+  showPlayerPage.value = !display;
+  showGamePage.value = !display;
+  saveToLocalStorage();
+};
+
+const pickPlayerNames = (display: boolean) => {
+  showWelcomePage.value = !display;
+  showPlayerPage.value = display;
+  showGamePage.value = !display;
+  saveToLocalStorage();
+};
+
+const startUpGame = (display: boolean) => {
+  showWelcomePage.value = !display;
+  showPlayerPage.value = !display;
+  showGamePage.value = display;
+  saveToLocalStorage();
 };
 </script>
 
 <template>
-  <Welcome v-if="showWelcomePage" @start-game="startNewSession" />
+  <Welcome v-if="showWelcomePage" @start-game="pickPlayerNames" />
   <Players
     v-if="showPlayerPage"
-    @start-game="startNewSession"
+    @start-new-session="startNewSession"
     @start-playing="startUpGame"
   />
-  <Game v-if="showGamePage" />
+  <Game v-if="showGamePage" @start-new-session="startNewSession" />
 </template>
 
 <style scoped></style>

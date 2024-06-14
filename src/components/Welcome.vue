@@ -1,6 +1,21 @@
 <script setup lang="ts">
+const resetStorage = () => {
+  if (localStorage.getItem("showWelcomePage") == "true") {
+    localStorage.setItem("playerXName", "");
+    localStorage.setItem("playerOName", "");
+    localStorage.setItem("XScore", "0");
+    localStorage.setItem("OScore", "0");
+    localStorage.setItem("currentPlayerName", "");
+    localStorage.setItem("grid_row1", JSON.stringify(["", "", ""]));
+    localStorage.setItem("grid_row2", JSON.stringify(["", "", ""]));
+    localStorage.setItem("grid_row3", JSON.stringify(["", "", ""]));
+  }
+};
+
+resetStorage();
+
 defineEmits<{
-  (e: "startGame", disabled: boolean): void;
+  (e: "startGame", display: boolean): void;
 }>();
 </script>
 
@@ -27,7 +42,7 @@ defineEmits<{
       </div>
     </div>
 
-    <button @click="$emit('startGame', false)">Play</button>
+    <button @click="$emit('startGame', true)">Play</button>
   </section>
 </template>
 
