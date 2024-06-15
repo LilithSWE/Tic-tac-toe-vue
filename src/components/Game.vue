@@ -109,13 +109,16 @@ const setCurrentPlayerName = () => {
   localStorage.setItem("currentPlayerName", currentPlayerName.value);
 };
 // run once
+getGrid();
+getScore();
 getPlayerNames();
 setCurrentPlayerName();
 
 window.onload = () => {
   getGrid();
-  getPlayerNames();
   getScore();
+  getPlayerNames();
+  setCurrentPlayerName();
 };
 
 const addPoints = () => {
